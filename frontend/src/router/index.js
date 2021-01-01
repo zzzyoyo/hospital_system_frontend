@@ -2,15 +2,10 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import Login from '@/components/Login'
-import Register from '@/components/Register'
-import Contact from '@/components/Contact'
-import Personal from '@/components/Personal'
-import Contribute from '@/components/Contribute'
-import Upload from '@/components/Upload'
-import MeetingDetail from '@/components/MeetingDetail'
-import Admin from '@/components/Admin'
-import ReadOver from '@/components/ReadOver'
-import EditMyEssay from '@/components/EditMyEssay'
+import Doctor from '@/components/Doctor'
+import HeadNurse from '@/components/HeadNurse'
+import WardNurse from '@/components/WardNurse'
+import EmergencyNurse from '@/components/EmergencyNurse'
 
 import store from '../store'
 
@@ -27,105 +22,91 @@ export const router = new Router({
       }
     },
     {
-      path: '/login',
+      path: 'login',
       name: 'Login',
-      component: Login
+      component: Login,
+      meta: {
+        requireAuth: false
+      }
     },
     {
-      path: '/register',
-      name: 'Register',
-      component: Register
-    },
-    {
-      path: '/contact',
-      name: 'Contact',
-      component: Contact,
+      path: '/doctor',
+      name: 'Doctor',
+      component: Doctor,
       meta: {
         requireAuth: true
       }
     },
     {
-      path: '/personal',
-      name: 'Personal',
-      component: Personal,
+      path: '/wardNurse',
+      name: 'WardNurse',
+      component: WardNurse,
       meta: {
         requireAuth: true
       }
     },
     {
-      path: '/contribute',
-      name: 'Contribute',
-      component: Contribute,
+      path: '/headNurse',
+      name: 'HeadNurse',
+      component: HeadNurse,
       meta: {
         requireAuth: true
       }
     },
     {
-      path: '/upload',
-      name: 'Upload',
-      component: Upload,
+      path: '/emergencyNurse',
+      name: 'EmergencyNurse',
+      component: EmergencyNurse,
       meta: {
         requireAuth: true
       }
-    },
-    {
-      path: '/meetingDetail',
-      name: 'MeetingDetail',
-      component: MeetingDetail,
-      meta: {
-        requireAuth: true
-      }
-    },
-    {
-      path: '/admin',
-      name: 'Admin',
-      component: Admin,
-      meta: {
-        requireAuth: true
-      },
-    },
-    {
-      path: '/readOver',
-      name: 'ReadOver',
-      component: ReadOver,
-      meta: {
-        requireAuth: true
-      },
-    },
-    {
-      path: '/editMyEssay',
-      name: 'EditMyEssay',
-      component: EditMyEssay,
-      meta: {
-        requireAuth: true
-      },
     }
   ]
-})
+});
 
 // 前端登录拦截
 router.beforeEach(function (to, from ,next) {
   if (to.matched.some(record => record.meta.requireAuth)) {
     if (store.state.token) {
-      if(store.state.status === 'admin'){
-        console.log("管理员")
-        if(to.fullPath === '/admin'){next()}
-        else{
-          //console.log("无权限")
-          next({
-            path:'/admin'
-          })
-        }
-      }
-      else{
-        console.log("普通用户")
-        if(to.fullPath === '/admin'){
-          //console.log("无权限")
-          next({
-            path:from.fullPath
-          })
-        }
-        else{next()}
+      switch (store.state.role) {
+        case 'doctor':
+          if(to.fullPath === '/doctor'){next()}
+          else {
+            alert("无权限");
+            next({
+              path:'/doctor'
+            });
+          }
+          break;
+        case 'headNurse':
+          if(to.fullPath === '/headNurse'){next()}
+          else {
+            alert("无权限");
+            next({
+              path:'/headNurse'
+            });
+          }
+          break;
+        case 'wardNurse':
+          if(to.fullPath === '/wardNurse'){next()}
+          else {
+            alert("无权限");
+            next({
+              path:'/wardNurse'
+            });
+          }
+          break;
+        case 'emergencyNurse':
+          if(to.fullPath === '/emergencyNurse'){next()}
+          else {
+            alert("无权限");
+            next({
+              path:'/emergencyNurse'
+            });
+          }
+          break;
+        default:
+          next({path:'/'});
       }
     } else {
       next({
@@ -136,4 +117,4 @@ router.beforeEach(function (to, from ,next) {
   } else {
     next()
   }
-})
+});

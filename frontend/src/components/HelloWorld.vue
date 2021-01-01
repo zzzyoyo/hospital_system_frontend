@@ -49,34 +49,7 @@ export default {
       </div>
       <!-- banner-hny-info -->
       
-      <div class="banner-hny-info">
-        <h3>让世界看见你的观点</h3>
-        <div class="top-buttons mx-auto text-center mt-md-5 mt-3">
-          <router-link to="contribute" class="btn more mr-2">投稿</router-link>
-          <router-link to = "contact" class="btn">申请会议</router-link>
-        </div>
-      <div class="d-flex banner" style="margin:3em 0 2em 2em">
-          <div class="col-md-4">
-            <div class="d-md-flex justify-content-center">
-              <h5 class="counter">13228029</h5>
-              <p class="para-w3pvt">篇文章</p>
-            </div>
-          </div>
-            <div class="col-md-4">
-            <div class="d-md-flex justify-content-center">
-              <h5 class="counter">3504</h5>
-              <p class="para-w3pvt">场会议</p>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="d-md-flex justify-content-center">
-              <h5 class="counter">10663276</h5>
-              <p class="para-w3pvt">位会员</p>
-            </div>
-          </div>
-        </div>
 
-      </div>
       <!-- //banner-hny-info -->
     </div>
     <!-- //banner slider -->

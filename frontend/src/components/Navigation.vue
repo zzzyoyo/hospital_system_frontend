@@ -49,7 +49,7 @@ export default {
   name: 'Navigation',
   computed:{
       msg(){
-        return this.$store.state.userDetails?this.$store.state.userDetails:"个人空间"
+        return this.$store.state.userDetails?this.$store.state.userDetails.username+this.$store.state.role:"个人空间"
       },
       out(){//whether logout or not
         return this.$store.state.userDetails

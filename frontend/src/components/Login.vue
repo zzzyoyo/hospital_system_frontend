@@ -1,49 +1,44 @@
 <script>
-
+//已修改对store的调用
 export default {
   name: 'Login',
   data () {
     return {
       loginForm: {
         username: '',
-        password: ''
+        password: '',
+        role:''
       },
       rules: {
         username: [{required: true, message: '', trigger: 'blur'}],
-        password: [{required: true, message: '', trigger: 'blur'}]
+        password: [{required: true, message: '', trigger: 'blur'}],
+        role: [{required: true, message: '', trigger: 'blur'}]
       },
       loading: false
     }
   },
   methods: {
-    login (formName,status) {
+    login (formName) {
       this.$refs[formName].validate(valid => {
         if(valid){
           this.$axios.post('/login', {
-        username: this.loginForm.username,
-        password: this.loginForm.password,
-        identity:status
-      })
+            username: this.loginForm.username,
+            password: this.loginForm.password,
+            role:this.loginForm.role
+          })
         .then(resp => {
           if (resp.status === 200 && resp.data.hasOwnProperty("token")) {
             this.$message({
               showClose: true,
               message: '登录成功',
               type: 'success'
-            })
-            if(status == 'admin'){
-            this.$store.commit('login', {
-              data:resp.data,
-              isAdmin:true
-            })
-              this.$router.replace({path:'/admin'})
-            }else{
+            });
             this.$store.commit('login',{
               data:resp.data,
-              isAdmin:false
-            })
-                this.$router.replace({path: this.$route.query.redirect?this.$route.query.redirect:'/'})
-            }
+              role:this.loginForm.role
+            });
+            this.$router.replace({path: '/'+this.$store.state.role});//跳转到各自角色对应的页面
+            //this.$router.replace({path: this.$route.query.redirect?this.$route.query.redirect:'/'});//跳转到原来要去的页面
           }
           else{
             this.$message.error('登录失败')
@@ -136,23 +131,27 @@ export default {
         <el-input type="text"
                   v-model="loginForm.username"
                   auto-complete="off"
-                  placeholder="username"></el-input>
+                  placeholder="姓名"></el-input>
       </el-form-item>
       <el-form-item prop="password" >
         <el-input type="password"
                   v-model="loginForm.password"
                   auto-complete="off"
-                  placeholder="password"></el-input>
+                  placeholder="密码"></el-input>
+      </el-form-item>
+      <el-form-item prop="role">
+        <el-select v-model="loginForm.role" placeholder="请选择角色">
+          <el-option label="主治医生" value="doctor"></el-option>
+          <el-option label="护士长" value="head_nurse"></el-option>
+          <el-option label="病房护士" value="ward_nurse"></el-option>
+          <el-option label="急诊护士" value="emergency_nurse"></el-option>
+        </el-select>
       </el-form-item>
       <el-form-item style="width: 100%">
         <el-button type="primary"
                    class="btn more mr-2"
                    style="width: 30%;background: #afb4db;border: none;font-size:15px;font-weight:600"
-                   v-on:click="login(loginForm,'user')"><em class="el-icon-user-solid"></em>UserLogin</el-button>
-        <el-button type="primary"
-                   class="btn more mr-2"
-                   style="width: 30%;background: #afb4db;border: none;font-size:15px;font-weight:600"
-                   v-on:click="login(loginForm,'admin')"><em class="el-icon-s-custom"></em>AdminLogin</el-button>
+                   v-on:click="login(loginForm,)"><em class="el-icon-user-solid"></em>登录</el-button>
 
           <el-button type="primary"
                    class="btn more mr-2"
