@@ -52,7 +52,7 @@ export const router = new Router({
       name: 'HeadNurse',
       component: HeadNurse,
       meta: {
-        requireAuth: true
+        requireAuth: false
       }
     },
     {

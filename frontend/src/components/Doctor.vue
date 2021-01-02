@@ -120,7 +120,7 @@
         })
           .then(resp => {
             if(resp.status === 200){
-              this.area_id = resp.data.area_id;
+              this.area = resp.data.area;
               this.headNurse = resp.data.headNurse;
               this.wardNurse_tableData = resp.data.wardNurse_tableData;
               this.patient_tableData = resp.data.patient_tableData;
