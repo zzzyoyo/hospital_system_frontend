@@ -21,7 +21,7 @@ export default {
     login (formName) {
       this.$refs[formName].validate(valid => {
         if(valid){
-          this.$axios.post('/login', {
+          this.$axios.post('/loginHospitalSystem', {
             username: this.loginForm.username,
             password: this.loginForm.password,
             role:this.loginForm.role
