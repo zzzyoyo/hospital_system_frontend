@@ -151,13 +151,7 @@ export default {
         <el-button type="primary"
                    class="btn more mr-2"
                    style="width: 30%;background: #afb4db;border: none;font-size:15px;font-weight:600"
-                   v-on:click="login(loginForm,)"><em class="el-icon-user-solid"></em>登录</el-button>
-
-          <el-button type="primary"
-                   class="btn more mr-2"
-                     style="width: 25%;background: #afb4db;border: none;font-size:15px;font-weight:600"><router-link to="register"
-                     style="text-decoration: none;color: #232323; font-size:15px">register</router-link></el-button>
-
+                   v-on:click="login(loginForm)"><em class="el-icon-user-solid"></em>登录</el-button>
       </el-form-item>
     </el-form>
     </div>

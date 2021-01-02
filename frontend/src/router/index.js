@@ -6,6 +6,8 @@ import Doctor from '@/components/Doctor'
 import HeadNurse from '@/components/HeadNurse'
 import WardNurse from '@/components/WardNurse'
 import EmergencyNurse from '@/components/EmergencyNurse'
+import NucleicAcidTestSheet from '@/components/NucleicAcidTestSheet'
+import DailyStatusRecord from '@/components/DailyStatusRecord'
 
 import store from '../store'
 
@@ -22,7 +24,7 @@ export const router = new Router({
       }
     },
     {
-      path: 'login',
+      path: '/login',
       name: 'Login',
       component: Login,
       meta: {
@@ -34,7 +36,7 @@ export const router = new Router({
       name: 'Doctor',
       component: Doctor,
       meta: {
-        requireAuth: true
+        requireAuth: false
       }
     },
     {
@@ -59,6 +61,22 @@ export const router = new Router({
       component: EmergencyNurse,
       meta: {
         requireAuth: true
+      }
+    },
+    {
+      path: '/test_sheet',
+      name: 'NucleicAcidTestSheet',
+      component: NucleicAcidTestSheet,
+      meta: {
+        requireAuth: false
+      }
+    },
+    {
+      path: '/state_record',
+      name: 'DailyStatusRecord',
+      component: DailyStatusRecord,
+      meta: {
+        requireAuth: false
       }
     }
   ]
