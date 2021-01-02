@@ -44,7 +44,7 @@ export const router = new Router({
       name: 'WardNurse',
       component: WardNurse,
       meta: {
-        requireAuth: true
+        requireAuth: false
       }
     },
     {

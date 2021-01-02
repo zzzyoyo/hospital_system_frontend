@@ -1,20 +1,162 @@
 <template>
-    <div id="wardNurse">
-      病房护士的界面
-      病房护士：每个治疗区域有多个病房护士，负责患者的治疗及每天的信息登
-      记（包括体温、存在的症状、生命状态、核酸检测结果等）。病房护士可以查看
-      自己负责的病人的信息并支持不同条件的筛选（例如根据是否可以出院、生命状
-      态等）。
-
-    </div>
+  <el-container>
+    <el-header>WardNurse</el-header>
+    <el-container>
+      <el-aside>
+        <p>我所在的治疗区域：{{description[area]}}</p>
+        <p>主治医生：{{doctor}}</p>
+        <p>护士长：{{headNurse}}</p>
+      </el-aside>
+      <el-main>
+        <div style="text-align: right">
+          是否满足出院条件：
+          <el-radio-group v-model="leave">
+            <el-radio :label="0">是</el-radio>
+            <el-radio :label="1">否</el-radio>
+            <el-radio :label="2">不筛选</el-radio>
+          </el-radio-group>
+          <br>
+          是否待转入其他治疗区域：
+          <el-radio-group v-model="trans">
+            <el-radio :label="0">是</el-radio>
+            <el-radio :label="1">否</el-radio>
+            <el-radio :label="2">不筛选</el-radio>
+          </el-radio-group>
+          <br>
+          生命状态：
+          <el-radio-group v-model="status">
+            <el-radio :label="0">住院</el-radio>
+            <el-radio :label="1">出院</el-radio>
+            <el-radio :label="2">死亡</el-radio>
+            <el-radio :label="3">不筛选</el-radio>
+          </el-radio-group>
+          <br>
+          <button @click="select()">筛选</button>
+        </div>
+        <el-table :data="myPatient_tableData" height="400">
+          <el-table-column prop="patientID" label="病人ID">
+          </el-table-column>
+          <el-table-column prop="username" label="姓名">
+          </el-table-column>
+          <el-table-column prop="condition_rating" label="病情评级|0：轻症 1： 重症 2：危重">
+          </el-table-column>
+          <el-table-column prop="living_status" label="生命状态|0：住院 1：出院 2：死亡">
+          </el-table-column>
+          <el-table-column prop="test_sheet" label="核酸检测单">
+            <template slot-scope="scope">
+              <router-link :to="{ path: 'test_sheet', query: { id: scope.row.patientID , name: scope.row.username}}">核酸检测单</router-link>
+            </template>
+          </el-table-column>
+          <el-table-column prop="state_record" label="状态记录表">
+            <template slot-scope="scope">
+              <router-link :to="{ path: 'state_record', query: { id: scope.row.patientID, name: scope.row.username }}">状态记录表</router-link>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-main>
+    </el-container>
+  </el-container>
 </template>
 
 <script>
     export default {
-        name: "WardNurse"
+      name: "WardNurse",
+      created: function (){
+        this.$axios.post('/wardNurse',{
+          wardNurse: this.$store.state.userDetails.username
+        })
+          .then(resp => {
+            if(resp.status === 200){
+              this.area = resp.data.area;
+              this.doctor = resp.data.doctor;
+              this.headNurse = resp.data.headNurse;
+              this.myPatient_tableData = resp.data.patient_tableData;
+            }
+          })
+          .catch(err => {
+            console.log(err);
+            this.$message.error('病房护士页面加载失败');
+          })
+      },
+      data() {
+        const item = {
+          patientID:1,
+          username: '王小虎',
+          condition_rating: 0,
+          living_status:0,
+        };
+        return {
+          area:0,
+          description:['轻症区域','重症区域','危重症区域'],
+          doctor: '张哼哼',
+          headNurse:'张冬瓜',
+          myPatient_tableData: Array(20).fill(item),
+          radio: 0,
+          leave: 2,
+          trans: 2,
+          status: 3
+        }
+      },
+      methods:{
+        acid_test(row, index){
+          alert("nucleic_acid_test");
+        },
+        select(){
+          this.$axios.post('/selectFromMyPatient',{
+            areaID: this.area,
+            wardNurseName:this.$store.state.userDetails.username,
+            leave: this.leave,
+            trans: this.trans,
+            status: this.status
+          })
+            .then(resp => {
+              if(resp.status === 200){
+                this.myPatient_tableData = resp.data.patient_tableData;
+                this.$message({
+                  showClose: true,
+                  message: '筛选成功',
+                  type: 'success'
+                });
+              }
+            })
+            .catch(err => {
+              console.log(err);
+              this.$message.error("筛选失败");
+            })
+        }
+      }
     }
 </script>
 
 <style scoped>
+  .el-header, .el-footer {
+    background-color: #B3C0D1;
+    color: #333;
+    text-align: center;
+    line-height: 60px;
+  }
+  .el-aside {
+    background-color: #D3DCE6;
+    color: #333;
+    text-align: center;
+    line-height: 200px;
+  }
+  .el-main {
+    background-color: #E9EEF3;
+    color: #333;
+    text-align: center;
+  }
 
+  body > .el-container {
+    margin-bottom: 40px;
+  }
+
+  .el-container:nth-child(5) .el-aside,
+  .el-container:nth-child(6) .el-aside {
+    line-height: 260px;
+  }
+
+  .el-container:nth-child(7) .el-aside {
+    line-height: 320px;
+  }
 </style>
