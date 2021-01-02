@@ -1,10 +1,63 @@
 <template>
-    <div>Daily Status Record</div>
+  <el-container style="height: 500px; border: 1px solid #eee">
+    <el-header></el-header>
+    <el-main>
+      病人{{patientName}}的每日状态记录
+      <el-table
+        :data="recordTable"
+        style="width: 100%">
+        <el-table-column
+          prop="date"
+          label="日期"
+          width="180">
+        </el-table-column>
+        <el-table-column
+          prop="temperature"
+          label="温度"
+          width="180">
+        </el-table-column>
+        <el-table-column
+          prop="symptom"
+          label="症状">
+        </el-table-column>
+        <el-table-column
+          prop="living_status"
+          label="生命状态|0：住院 1：出院 2：死亡">
+        </el-table-column>
+        <el-table-column
+          prop="result"
+          label="核酸检测结果">
+        </el-table-column>
+      </el-table>
+    </el-main>
+  </el-container>
 </template>
 
 <script>
     export default {
-        name: "DailyStatusRecord"
+        name: "DailyStatusRecord",
+      created: function(){
+        this.$axios.post('/dailyStatusRecord',{
+          patientID: this.patientID
+        })
+          .then(resp => {
+            if(resp.status === 200){
+              this.recordTable = resp.data.recordTable;
+            }
+          })
+          .catch(err => {
+            console.log(err);
+            this.$message.error('页面信息加载失败')
+          })
+      },
+      data(){
+        return{
+          patientID: this.$route.query.id,
+          patientName: this.$route.query.name,
+          recordTable:[{date:'2021年1月2日15:19:08', result:'阴性', temperature:'37℃',symptom:'正常',living_status:0},
+            {date:'2021年1月2日15:30:36', result:'阴性', temperature:'37℃',symptom:'正常',living_status:0}]
+        }
+      }
     }
 </script>
 

@@ -27,7 +27,7 @@
 
 <script>
     export default {
-      name: "nucleicAcidTestSheet",
+      name: "NucleicAcidTestSheet",
       created: function(){
         this.$axios.post('/nucleicAcidTestSheet',{
           patientID: this.patientID
