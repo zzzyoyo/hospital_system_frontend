@@ -36,7 +36,7 @@ export const router = new Router({
       name: 'Doctor',
       component: Doctor,
       meta: {
-        requireAuth: true
+        requireAuth: false
       }
     },
     {
@@ -44,7 +44,7 @@ export const router = new Router({
       name: 'WardNurse',
       component: WardNurse,
       meta: {
-        requireAuth: true
+        requireAuth: false
       }
     },
     {
@@ -52,7 +52,7 @@ export const router = new Router({
       name: 'HeadNurse',
       component: HeadNurse,
       meta: {
-        requireAuth: true
+        requireAuth: false
       }
     },
     {
@@ -60,7 +60,7 @@ export const router = new Router({
       name: 'EmergencyNurse',
       component: EmergencyNurse,
       meta: {
-        requireAuth: true
+        requireAuth: false
       }
     },
     {
@@ -68,7 +68,7 @@ export const router = new Router({
       name: 'NucleicAcidTestSheet',
       component: NucleicAcidTestSheet,
       meta: {
-        requireAuth: true
+        requireAuth: false
       }
     },
     {
@@ -76,7 +76,7 @@ export const router = new Router({
       name: 'DailyStatusRecord',
       component: DailyStatusRecord,
       meta: {
-        requireAuth: true
+        requireAuth: false
       }
     }
   ]

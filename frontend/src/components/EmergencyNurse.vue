@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <el-header>WardNurse</el-header>
+    <el-header>emergencyNurse</el-header>
     <el-container>
       <el-aside>
         <el-form :model="registerPatientForm"

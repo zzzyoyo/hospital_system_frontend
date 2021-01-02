@@ -42,7 +42,7 @@
             <br>
             <button @click="select()">筛选</button>
           </div>
-          <el-table :data="patient_tableData" height="500">
+          <el-table :data="patient_tableData" height="350">
             <el-table-column prop="patientID" label="病人ID">
             </el-table-column>
             <el-table-column prop="username" label="姓名">
