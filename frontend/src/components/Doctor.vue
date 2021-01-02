@@ -53,12 +53,12 @@
             </el-table-column>
             <el-table-column prop="test_sheet" label="核酸检测单">
               <template slot-scope="scope">
-                <router-link :to="{ path: 'test_sheet', query: { id: scope.row.patientID }}">核酸检测单</router-link>
+                <router-link :to="{ path: 'test_sheet', query: { id: scope.row.patientID , name: scope.row.username}}">核酸检测单</router-link>
               </template>
             </el-table-column>
             <el-table-column prop="state_record" label="状态记录表">
               <template slot-scope="scope">
-                <router-link :to="{ path: 'state_record', query: { id: scope.row.patientID }}">状态记录表</router-link>
+                <router-link :to="{ path: 'state_record', query: { id: scope.row.patientID, name: scope.row.username }}">状态记录表</router-link>
               </template>
             </el-table-column>
             <el-table-column
