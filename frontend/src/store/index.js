@@ -5,6 +5,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {//响应式状态
     token: localStorage.getItem('token') || null,//若未定义则会返回undefined，||null则得到null
+    // token: '12djfhsfhghelggglhghi',
     userDetails: localStorage.getItem('userDetails') || null,
     role: localStorage.getItem('role') || null
   },

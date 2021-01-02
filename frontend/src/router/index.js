@@ -11,7 +11,7 @@ import DailyStatusRecord from '@/components/DailyStatusRecord'
 
 import store from '../store'
 
-Vue.use(Router)
+Vue.use(Router);
 
 export const router = new Router({
   routes: [
@@ -36,7 +36,7 @@ export const router = new Router({
       name: 'Doctor',
       component: Doctor,
       meta: {
-        requireAuth: false
+        requireAuth: true
       }
     },
     {
@@ -44,7 +44,7 @@ export const router = new Router({
       name: 'WardNurse',
       component: WardNurse,
       meta: {
-        requireAuth: false
+        requireAuth: true
       }
     },
     {
@@ -52,7 +52,7 @@ export const router = new Router({
       name: 'HeadNurse',
       component: HeadNurse,
       meta: {
-        requireAuth: false
+        requireAuth: true
       }
     },
     {
@@ -60,7 +60,7 @@ export const router = new Router({
       name: 'EmergencyNurse',
       component: EmergencyNurse,
       meta: {
-        requireAuth: false
+        requireAuth: true
       }
     },
     {
@@ -68,7 +68,7 @@ export const router = new Router({
       name: 'NucleicAcidTestSheet',
       component: NucleicAcidTestSheet,
       meta: {
-        requireAuth: false
+        requireAuth: true
       }
     },
     {
@@ -76,7 +76,7 @@ export const router = new Router({
       name: 'DailyStatusRecord',
       component: DailyStatusRecord,
       meta: {
-        requireAuth: false
+        requireAuth: true
       }
     }
   ]
@@ -86,6 +86,12 @@ export const router = new Router({
 router.beforeEach(function (to, from ,next) {
   if (to.matched.some(record => record.meta.requireAuth)) {
     if (store.state.token) {
+      if(to.fullPath === '/test_sheet' || to.fullPath === '/state_record'){
+        //只需要登录权限，不管是哪个角色都可以访问
+        next();
+        return;
+      }
+      //不同角色的访问权限不同
       switch (store.state.role) {
         case 'doctor':
           if(to.fullPath === '/doctor'){next()}
