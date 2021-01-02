@@ -17,7 +17,7 @@
           width="180">
         </el-table-column>
         <el-table-column
-          prop="conditianal_rating"
+          prop="condition_rating"
           label="病情评级|0：轻症 1： 重症 2：危重">
         </el-table-column>
       </el-table>
@@ -46,7 +46,7 @@
         return{
           patientID: this.$route.query.id,
           patientName: this.$route.query.name,
-          sheetTable:[{date:'2021年1月2日15:19:08', result:'阴性', conditianal_rating:0},{date:'2021年1月2日15:19:08', result:'阳性', conditianal_rating:0}]
+          sheetTable:[{date:'2021年1月2日15:19:08', result:'阴性', condition_rating:0},{date:'2021年1月2日15:19:08', result:'阳性', condition_rating:0}]
         }
       }
     }

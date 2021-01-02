@@ -60,7 +60,7 @@ export const router = new Router({
       name: 'EmergencyNurse',
       component: EmergencyNurse,
       meta: {
-        requireAuth: true
+        requireAuth: false
       }
     },
     {
