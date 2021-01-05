@@ -54,7 +54,7 @@
           </el-radio-group>
           <br>
           治疗区域：
-          <el-radio-group v-model="areaID">
+          <el-radio-group v-model="area">
             <el-radio :label="0">轻症区域</el-radio>
             <el-radio :label="1">重症区域</el-radio>
             <el-radio :label="2">危重症区域</el-radio>
@@ -134,7 +134,7 @@
         return {
           patient_tableData: Array(20).fill(item),
           radio: 0,
-          areaID:-1,
+          area:-1,
           isolated:2,
           status: 3,
           rating:3,
@@ -149,7 +149,7 @@
       methods:{
         select(){
           this.$axios.post('/selectAll',{
-            areaID: this.areaID,
+            area_type: this.area,
             isolated: this.isolated,
             rating: this.rating,
             status: this.status

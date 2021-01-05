@@ -33,6 +33,7 @@ export default {
               message: '登录成功',
               type: 'success'
             });
+            console.log(resp.data);
             this.$store.commit('login',{
               data:resp.data,
               role:this.loginForm.role
@@ -142,9 +143,9 @@ export default {
       <el-form-item prop="role">
         <el-select v-model="loginForm.role" placeholder="请选择角色">
           <el-option label="主治医生" value="doctor"></el-option>
-          <el-option label="护士长" value="head_nurse"></el-option>
-          <el-option label="病房护士" value="ward_nurse"></el-option>
-          <el-option label="急诊护士" value="emergency_nurse"></el-option>
+          <el-option label="护士长" value="headNurse"></el-option>
+          <el-option label="病房护士" value="wardNurse"></el-option>
+          <el-option label="急诊护士" value="emergencyNurse"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item style="width: 100%">

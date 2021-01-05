@@ -3,7 +3,7 @@
     <el-header>WardNurse</el-header>
     <el-container>
       <el-aside>
-        <p>我所在的治疗区域：{{description[area]}}</p>
+        <p>我所在的治疗区域：area</p>
         <p>主治医生：{{doctor}}</p>
         <p>护士长：{{headNurse}}</p>
       </el-aside>
@@ -87,7 +87,6 @@
         };
         return {
           area:0,
-          description:['轻症区域','重症区域','危重症区域'],
           doctor: '张哼哼',
           headNurse:'张冬瓜',
           myPatient_tableData: Array(20).fill(item),
@@ -103,7 +102,7 @@
         },
         select(){
           this.$axios.post('/selectFromMyPatient',{
-            areaID: this.area,
+            area_type: this.area,
             wardNurseName:this.$store.state.userDetails.username,
             leave: this.leave,
             trans: this.trans,

@@ -4,7 +4,7 @@
     <el-main>
       <el-container style="height: 500px; border: 1px solid #eee">
         <el-aside width="200px">
-          <p>当前治疗区域：{{description[area]}}</p>
+          <p>当前治疗区域：area</p>
           <p>护士长：{{headNurse}}</p>
           <el-card class="box-card" style="width: 100%;">
             <div slot="header" class="clearfix">
@@ -140,7 +140,6 @@
         };
         return {
           area:0,
-          description:['轻症区域','重症区域','危重症区域'],
           headNurse:'张冬瓜',
           wardNurse_tableData:[{name:'111', patients:['aaa','bbb','ccc']},{name:'121', patients:['aaa','bbb','ccc']},{name:'131', patients:['aaa','bbb','ccc']}],
           patient_tableData: Array(20).fill(item),
@@ -207,7 +206,7 @@
         },
         select(){
           this.$axios.post('/select',{
-            areaID: this.area,
+            area_type: this.area,
             leave: this.leave,
             trans: this.trans,
             status: this.status

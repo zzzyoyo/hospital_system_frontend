@@ -4,7 +4,7 @@
     <el-main>
       <el-container style="height: 500px; border: 1px solid #eee">
         <el-aside width="200px">
-          <p>当前治疗区域：{{description[area]}}</p>
+          <p>当前治疗区域：area</p>
           <el-card class="box-card" style="width: 100%;">
             <div slot="header" class="clearfix">
               <span>病房护士 <button @click="addNurse_dialogVisible=true">增加病房护士</button></span>
@@ -134,7 +134,6 @@
         };
         return {
           area:0,
-          description:['轻症区域','重症区域','危重症区域'],
           wardNurse_tableData:[{name:'111', patients:['aaa','bbb','ccc']},{name:'121', patients:['aaa','bbb','ccc']},{name:'131', patients:['aaa','bbb','ccc']}],
           bed_patient_tableData: [{bedID: 1, patientName: '张三'},{bedID: 2, patientName: '王小虎'},{bedID: 3, patientName: '无'}],
           patient_tableData: Array(20).fill(item),
@@ -150,7 +149,7 @@
       methods:{
         select(){
           this.$axios.post('/select',{
-            areaID: this.area,
+            area_type: this.area,
             leave: this.leave,
             trans: this.trans,
             status: this.status
@@ -174,7 +173,7 @@
           alert('delete nurse'+nurse.name);
           this.$axios.post('/deleteNurse',{
             nurseName: nurse.name,
-            areaID: this.area
+            area_type: this.area
           })
             .then(resp => {
               if(resp.status === 200){
@@ -208,7 +207,7 @@
           }
           this.$axios.post('/addNurse',{
             nurseName: this.addNurse_radio,
-            areaID: this.area
+            area_type: this.area
           })
             .then(resp => {
               if(resp.status === 200){
