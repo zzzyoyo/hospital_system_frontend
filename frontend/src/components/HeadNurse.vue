@@ -109,7 +109,7 @@
       name: "HeadNurse",
       created: function (){
         this.$axios.post('/headNurse',{
-          headNurse: this.$store.state.userDetails.username
+          username: this.$store.state.userDetails.username
         })
           .then(resp => {
             if(resp.status === 200){

@@ -111,7 +111,7 @@
       name: "EmergencyNurse",
       created: function (){
         this.$axios.post('/emergencyNurse',{
-          emergencyNurse: this.$store.state.userDetails.username
+          username: this.$store.state.userDetails.username
         })
           .then(resp => {
             if(resp.status === 200){

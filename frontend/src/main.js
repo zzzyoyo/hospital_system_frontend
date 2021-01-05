@@ -26,6 +26,7 @@ Vue.config.productionTip = false
 // http request 拦截器
 axios.interceptors.request.use(
   config => {
+    console.log(config.data);
     if(store.state.token) {
       // 判断是否有token，若存在，每个http header加上token
       config.headers.Authorization = 'Bearer:'+store.state.token;
