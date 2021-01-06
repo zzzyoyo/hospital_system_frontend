@@ -4,7 +4,7 @@
     <el-main>
       <el-container style="height: 500px; border: 1px solid #eee">
         <el-aside width="200px">
-          <p>当前治疗区域：area</p>
+          <p>当前治疗区域：{{area}}</p>
           <el-card class="box-card" style="width: 100%;">
             <div slot="header" class="clearfix">
               <span>病房护士 <button @click="addNurse_dialogVisible=true">增加病房护士</button></span>
@@ -12,7 +12,7 @@
                 title="空闲的护士"
                 :visible.sync="addNurse_dialogVisible"
                 width="30%">
-                <span>请从下列的空闲护士中选择你要增加到该治疗区域的病房护士</span>
+                <span>请从下列的空闲护士中选择你要增加到该治疗区域的病房护士</span><br>
                 <el-radio-group v-model="addNurse_radio">
                   <el-radio v-for="nurse in nullWardNurse" :key="'addnurse'+nurse" :label="nurse">{{nurse}}</el-radio>
                 </el-radio-group>
@@ -25,7 +25,8 @@
             <div v-for="nurse in wardNurse_tableData" :key="nurse.name" class="text item">
               {{nurse.name+': ' }}
               <span v-for="patient in nurse.patients" :key="'nurse'+patient">{{patient+' '}}</span>
-              <button @click="deleteNurse(nurse)">删除该护士</button>
+              <button v-if="nurse.patients.length === 0" @click="deleteNurse(nurse)">删除该护士</button>
+              <br><br>
             </div>
           </el-card>
         </el-aside>
@@ -37,6 +38,7 @@
                   <span>病床信息</span>
                 </div>
                 <el-table
+                  height="350"
                   :data="bed_patient_tableData"
                   style="width: 100%">
                   <el-table-column
@@ -170,7 +172,7 @@
             })
         },
         deleteNurse(nurse){
-          alert('delete nurse'+nurse.name);
+          // alert('delete nurse'+nurse.name);
           this.$axios.post('/deleteNurse',{
             nurseName: nurse.name,
             area_type: this.area
@@ -196,7 +198,7 @@
             })
         },
         addNurse(){
-          alert('add '+this.addNurse_radio);
+          // alert('add '+this.addNurse_radio);
           if(this.addNurse_radio==null){
             this.$message({
               showClose: true,
