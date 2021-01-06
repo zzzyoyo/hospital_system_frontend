@@ -67,7 +67,6 @@
                          class="login_container"
                          label-position="left"
                          label-width="0px"
-                         :rules="rules"
                          :ref="testForm[scope.$index]">
                   <el-form-item prop="condition_rating" required>
                     <el-select v-model="testForm[scope.$index].condition_rating" placeholder="病情评级">
@@ -174,10 +173,6 @@
           ratingRevise_radios: Array(20).fill(-1),
           statusRevise_radios: Array(20).fill(-1),
           testForm:Array(20).fill(atest),
-          rules: {
-            condition_rating: [{required: true, message: '', trigger: 'blur'}],
-            result: [{required: true, message: '', trigger: 'blur'}],
-          },
         }
       },
       methods:{
