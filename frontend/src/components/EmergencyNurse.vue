@@ -7,7 +7,6 @@
                  class="login_container"
                  label-position="left"
                  label-width="0px"
-                 v-loading="loading"
                  :ref="registerPatientForm">
           登记新病人
           <el-form-item prop="name" required>
@@ -83,7 +82,7 @@
           </el-table-column>
           <el-table-column prop="living_status" label="生命状态|0：住院 1：出院 2：死亡">
           </el-table-column>
-          <el-table-column prop="area" label="所在区域">
+          <el-table-column prop="area" label="所在区域|0：隔离区 1：轻症 2：重症 4：危重症">
           </el-table-column>
           <el-table-column prop="test_sheet" label="核酸检测单">
             <template slot-scope="scope">
@@ -167,7 +166,6 @@
         register(formName){
           this.$refs[formName].validate(valid => {
             if(valid){
-              alert(this.registerPatientForm.date);
               this.$axios.post('/registerPatient',{
                 name: this.registerPatientForm.name,
                 condition_rating: this.registerPatientForm.condition_rating,
@@ -181,11 +179,12 @@
                       message: '登记成功，病人已进入'+resp.data.area,
                       type: 'success'
                     });
-                    locate.reload();
+                    location.reload();
                   }
                 })
                 .catch(err => {
                   console.log(err);
+                  console.log("!!!!!aaa");
                   this.$message.error('登记失败');
                 })
             }
