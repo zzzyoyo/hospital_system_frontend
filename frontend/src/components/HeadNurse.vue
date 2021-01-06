@@ -178,7 +178,7 @@
             area_type: this.area
           })
             .then(resp => {
-              if(resp.status === 200){
+              if(resp.status === 200 && resp.data === 0){
                 this.$message({
                   showClose: true,
                   message: '删除'+nurse.name+'护士成功',
@@ -212,7 +212,7 @@
             area_type: this.area
           })
             .then(resp => {
-              if(resp.status === 200){
+              if(resp.status === 200 && resp.data === 0){
                 this.$message({
                   showClose: true,
                   message: '添加'+this.addNurse_radio+'护士成功',
