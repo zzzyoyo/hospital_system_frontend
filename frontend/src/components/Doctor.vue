@@ -63,7 +63,36 @@
             </el-table-column>
             <el-table-column label="进行核酸检测">
               <template slot-scope="scope">
-                <el-button @click="acid_test(scope.row,scope.$index)" type="primary" size="small">检测</el-button>
+                <el-form :model="testForm[scope.$index]"
+                         class="login_container"
+                         label-position="left"
+                         label-width="0px"
+                         :ref="testForm[scope.$index]">
+                  <el-form-item prop="condition_rating" required>
+                    <el-select v-model="testForm[scope.$index].condition_rating" placeholder="病情评级">
+                      <el-option label="轻症" :value=0></el-option>
+                      <el-option label="重症" :value=1></el-option>
+                      <el-option label="危重症" :value=2></el-option>
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item prop="result" required>
+                    <el-select v-model="testForm[scope.$index].result" placeholder="核酸检测结果">
+                      <el-option label="阴性" :value="0"></el-option>
+                      <el-option label="阳性" :value="1"></el-option>
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item prop="date" required>
+                    <el-date-picker
+                      v-model="testForm[scope.$index].date"
+                      type="date"
+                      placeholder="选择日期">
+                    </el-date-picker>
+                  </el-form-item>
+                  <el-form-item style="width: 100%">
+                    <el-button @click="acid_test(scope.row,scope.$index)" type="primary" size="small">提交检测单</el-button>
+                  </el-form-item>
+                </el-form>
+
               </template>
             </el-table-column>
             <el-table-column label="修改病情评级">
@@ -123,6 +152,11 @@
           condition_rating: 0,
           living_status:0,
         };
+        const atest = {
+          condition_rating: null,
+          result: null,
+          date: null
+        };
         return {
           area:0,
           headNurse:'张冬瓜',
@@ -132,12 +166,37 @@
           trans: 2,
           status: 3,
           ratingRevise_radios: Array(20).fill(-1),
-          statusRevise_radios: Array(20).fill(-1)
+          statusRevise_radios: Array(20).fill(-1),
+          testForm:Array(20).fill(atest)
         }
       },
       methods:{
         acid_test(row, index){
           alert("nucleic_acid_test for "+row.username);
+          console.log(this.testForm[index]);
+          this.$axios.post("/addAcidTest",{
+            patientName: row.username,
+            condition_rating: this.testForm[index].condition_rating,
+            result: this.testForm[index].result,
+            date: this.testForm[index].date
+          })
+            .then(resp => {
+              if(resp.status=== 200){
+                this.$message({
+                  showClose: true,
+                  message: '检测成功',
+                  type: 'success'
+                });
+              }
+              else{
+
+                this.$message.error("检测失败")
+              }
+            })
+            .catch(err => {
+              console.log(err);
+              this.$message.error("检测失败")
+            })
         },
         ratingRevise(row, index){
           // alert("Revise rating of patient "+row.username+" to "+this.ratingRevise_radios[index]);
