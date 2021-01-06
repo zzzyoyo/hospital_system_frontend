@@ -46,18 +46,13 @@
       </el-aside>
       <el-main>
         <div style="text-align: right">
-          是否在隔离区：
-          <el-radio-group v-model="isolated">
-            <el-radio :label="0">是</el-radio>
-            <el-radio :label="1">否</el-radio>
-            <el-radio :label="2">不筛选</el-radio>
-          </el-radio-group>
-          <br>
           治疗区域：
           <el-radio-group v-model="area">
-            <el-radio :label="0">轻症区域</el-radio>
-            <el-radio :label="1">重症区域</el-radio>
-            <el-radio :label="2">危重症区域</el-radio>
+            <el-radio :label="1">轻症区域</el-radio>
+            <el-radio :label="2">重症区域</el-radio>
+            <el-radio :label="4">危重症区域</el-radio>
+            <el-radio :label="0">隔离区域</el-radio>
+            <el-radio :label="3">治疗区域</el-radio>
             <el-radio :label="-1">不筛选</el-radio>
           </el-radio-group>
           <br>
@@ -137,7 +132,6 @@
           patient_tableData: Array(20).fill(item),
           radio: 0,
           area:-1,
-          isolated:2,
           status: 3,
           rating:3,
           registerPatientForm: {
@@ -152,7 +146,6 @@
         select(){
           this.$axios.post('/selectAll',{
             area_type: this.area,
-            isolated: this.isolated,
             rating: this.rating,
             status: this.status
           })
