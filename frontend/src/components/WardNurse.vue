@@ -3,7 +3,7 @@
     <el-header>WardNurse</el-header>
     <el-container>
       <el-aside>
-        <p>我所在的治疗区域：area</p>
+        <p>我所在的治疗区域：{{area}}</p>
         <p>主治医生：{{doctor}}</p>
         <p>护士长：{{headNurse}}</p>
       </el-aside>
@@ -67,6 +67,7 @@
         })
           .then(resp => {
             if(resp.status === 200){
+              console.log(resp.data)
               this.area = resp.data.area;
               this.doctor = resp.data.doctor;
               this.headNurse = resp.data.headNurse;

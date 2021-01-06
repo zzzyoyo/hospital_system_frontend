@@ -110,11 +110,13 @@
     export default {
       name: "EmergencyNurse",
       created: function (){
+        console.log(this.$store.state.userDetails.username);
         this.$axios.post('/emergencyNurse',{
           username: this.$store.state.userDetails.username
         })
           .then(resp => {
             if(resp.status === 200){
+              console.log(resp.data.patient_tableData);
               this.patient_tableData = resp.data.patient_tableData;
             }
           })
