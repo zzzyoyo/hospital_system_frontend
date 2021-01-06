@@ -67,6 +67,7 @@
                          class="login_container"
                          label-position="left"
                          label-width="0px"
+                         :rules="rules"
                          :ref="testForm[scope.$index]">
                   <el-form-item prop="condition_rating" required>
                     <el-select v-model="testForm[scope.$index].condition_rating" placeholder="病情评级">
@@ -92,7 +93,6 @@
                     <el-button @click="acid_test(scope.row,scope.$index)" type="primary" size="small">提交检测单</el-button>
                   </el-form-item>
                 </el-form>
-
               </template>
             </el-table-column>
             <el-table-column label="修改病情评级">
@@ -138,6 +138,12 @@
               this.patient_tableData = resp.data.patient_tableData;
               this.ratingRevise_radios = Array(this.patient_tableData.length).fill(-1);
               this.statusRevise_radios = Array(this.patient_tableData.length).fill(-1);
+              const atest = {
+                condition_rating: null,
+                result: null,
+                date: null
+              };
+              this.testForm = Array(this.patient_tableData.length).fill(atest);
             }
           })
           .catch(err => {
@@ -167,7 +173,11 @@
           status: 3,
           ratingRevise_radios: Array(20).fill(-1),
           statusRevise_radios: Array(20).fill(-1),
-          testForm:Array(20).fill(atest)
+          testForm:Array(20).fill(atest),
+          rules: {
+            condition_rating: [{required: true, message: '', trigger: 'blur'}],
+            result: [{required: true, message: '', trigger: 'blur'}],
+          },
         }
       },
       methods:{

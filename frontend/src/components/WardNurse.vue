@@ -52,6 +52,38 @@
               <router-link :to="{ path: 'state_record', query: { id: scope.row.patientID, name: scope.row.username }}">状态记录表</router-link>
             </template>
           </el-table-column>
+          <el-table-column prop="state_record" label="日常记录">
+            <template slot-scope="scope">
+              <el-form :model="recordForm[scope.$index]"
+                       class="login_container"
+                       label-position="left"
+                       label-width="0px"
+                       :ref="recordForm[scope.$index]">
+                <el-form-item prop="temperature" required>
+                  <el-input type="text"
+                            v-model="recordForm[scope.$index].temperature"
+                            auto-complete="off"
+                            placeholder="温度（℃）"></el-input>
+                </el-form-item>
+                <el-form-item prop="symptom" required>
+                  <el-input type="text"
+                            v-model="recordForm[scope.$index].symptom"
+                            auto-complete="off"
+                            placeholder="症状"></el-input>
+                </el-form-item>
+                <el-form-item prop="date" required>
+                  <el-date-picker
+                    v-model="recordForm[scope.$index].date"
+                    type="date"
+                    placeholder="选择日期">
+                  </el-date-picker>
+                </el-form-item>
+                <el-form-item style="width: 100%">
+                  <el-button @click="daily_record(scope.row,scope.$index)" type="primary" size="small">提交检测单</el-button>
+                </el-form-item>
+              </el-form>
+            </template>
+          </el-table-column>
         </el-table>
       </el-main>
     </el-container>
@@ -72,6 +104,12 @@
               this.doctor = resp.data.doctor;
               this.headNurse = resp.data.headNurse;
               this.myPatient_tableData = resp.data.patient_tableData;
+              const arecord = {
+                temperature: null,
+                symptom: null,
+                date: null
+              };
+              this.recordForm = Array(this.myPatient_tableData.length).fill(arecord);
             }
           })
           .catch(err => {
@@ -86,6 +124,11 @@
           condition_rating: 0,
           living_status:0,
         };
+        const arecord = {
+          temperature: null,
+          symptom: null,
+          date: null
+        };
         return {
           area:0,
           doctor: '张哼哼',
@@ -94,12 +137,36 @@
           radio: 0,
           leave: 2,
           trans: 2,
-          status: 3
+          status: 3,
+          recordForm: Array(20).fill(arecord)
         }
       },
       methods:{
-        acid_test(row, index){
-          alert("nucleic_acid_test");
+        daily_record(row, index){
+          alert("daily_record for"+row.username);
+          console.log(this.recordForm[index]);
+          this.$axios.post("/addDailyRecord",{
+            patientName: row.username,
+            temperature: parseFloat(this.recordForm[index].temperature),
+            symptom: this.recordForm[index].symptom,
+            date: this.recordForm[index].date
+          })
+            .then(resp => {
+              if(resp.status === 200){
+                this.$message({
+                  showClose: true,
+                  message: '记录成功',
+                  type: 'success'
+                });
+              }
+              else {
+                this.$message.error("记录失败");
+              }
+            })
+            .catch(err => {
+              console.log(err);
+              this.$message.error("记录失败");
+          })
         },
         select(){
           this.$axios.post('/selectFromMyPatient',{
