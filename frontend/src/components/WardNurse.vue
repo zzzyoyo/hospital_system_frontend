@@ -1,9 +1,9 @@
 <template>
   <el-container>
-    <el-header>WardNurse</el-header>
+    <el-header>病房护士的界面</el-header>
     <el-container>
       <el-aside>
-        <p>我所在的治疗区域：{{area}}</p>
+        <p>我所在的治疗区域(1：轻症 2：重症 4：危重症)：{{area}}</p>
         <p>主治医生：{{doctor}}</p>
         <p>护士长：{{headNurse}}</p>
       </el-aside>

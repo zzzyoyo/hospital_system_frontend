@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <el-header>emergencyNurse</el-header>
+    <el-header>急诊护士的界面</el-header>
     <el-container>
       <el-aside>
         <el-form :model="registerPatientForm"

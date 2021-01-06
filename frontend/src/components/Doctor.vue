@@ -1,10 +1,10 @@
 <template>
   <el-container>
-    <el-header>Doctor</el-header>
+    <el-header>主治医生的界面</el-header>
     <el-main>
       <el-container style="height: 500px; border: 1px solid #eee">
         <el-aside width="200px">
-          <p>当前治疗区域：{{area}}</p>
+          <p>当前治疗区域(1：轻症 2：重症 4：危重症)：{{area}}</p>
           <p>护士长：{{headNurse}}</p>
           <el-card class="box-card" style="width: 100%;">
             <div slot="header" class="clearfix">
