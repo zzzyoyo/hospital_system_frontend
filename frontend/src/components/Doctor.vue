@@ -4,14 +4,14 @@
     <el-main>
       <el-container style="height: 500px; border: 1px solid #eee">
         <el-aside width="200px">
-          <p>当前治疗区域：area</p>
+          <p>当前治疗区域：{{area}}</p>
           <p>护士长：{{headNurse}}</p>
           <el-card class="box-card" style="width: 100%;">
             <div slot="header" class="clearfix">
               <span>病房护士</span>
             </div>
             <div v-for="nurse in wardNurse_tableData" :key="nurse.name" class="text item">
-              {{nurse.name+': ' }}
+              {{nurse.name+': ' }}<br>
               <span v-for="patient in nurse.patients" :key="'nurse'+patient">{{patient+' '}}</span>
             </div>
           </el-card>
@@ -61,47 +61,29 @@
                 <router-link :to="{ path: 'state_record', query: { id: scope.row.patientID, name: scope.row.username }}">状态记录表</router-link>
               </template>
             </el-table-column>
-            <el-table-column
-              fixed="right"
-              label="操作">
+            <el-table-column label="进行核酸检测">
               <template slot-scope="scope">
-                <el-button @click="acid_test(scope.row,scope.$index)" type="text" size="small">进行核酸检测</el-button>
-
-
-                <el-button @click="ratingRevise_dialogVisible=true" type="text" size="small">修改病情评级</el-button>
-                <el-dialog
-                  title="修改病情评级"
-                  :visible.sync="ratingRevise_dialogVisible"
-                  width="30%"
-                  append-to-body>
-                  <el-radio-group v-model="radio">
-                    <el-radio :label="0">0：轻症</el-radio>
-                    <el-radio :label="1">1：重症</el-radio>
-                    <el-radio :label="2">2：危重症</el-radio>
-                  </el-radio-group>
-                  <span slot="footer" class="dialog-footer">
-                      <el-button @click="ratingRevise_dialogVisible = false">取 消</el-button>
-                      <el-button type="primary" @click="ratingRevise_dialogVisible = false; ratingRevise(scope.row,scope.$index) ">确 定</el-button>
-                    </span>
-                </el-dialog>
-
-
-                <el-button @click="statusRevise_dialogVisible = true" type="text" size="small">修改生命状态</el-button>
-                <el-dialog
-                  title="修改生命状态"
-                  :visible.sync="statusRevise_dialogVisible"
-                  width="30%"
-                  append-to-body>
-                  <el-radio-group v-model="radio">
-                    <el-radio :label="0">0：住院</el-radio>
-                    <el-radio :label="1">1：出院</el-radio>
-                    <el-radio :label="2">2：死亡</el-radio>
-                  </el-radio-group>
-                  <span slot="footer" class="dialog-footer">
-    <el-button @click="statusRevise_dialogVisible = false">取 消</el-button>
-    <el-button type="primary" @click="statusRevise_dialogVisible = false; statusRevise(scope.row,scope.$index)">确 定</el-button>
-  </span>
-                </el-dialog>
+                <el-button @click="acid_test(scope.row,scope.$index)" type="primary" size="small">检测</el-button>
+              </template>
+            </el-table-column>
+            <el-table-column label="修改病情评级">
+              <template slot-scope="scope">
+                <el-radio-group v-model="ratingRevise_radios[scope.$index]">
+                  <el-radio :label="0">0：轻症</el-radio>
+                  <el-radio :label="1">1：重症</el-radio>
+                  <el-radio :label="2">2：危重症</el-radio>
+                </el-radio-group>
+                <el-button @click="ratingRevise(scope.row,scope.$index)" type="primary" size="small">修改</el-button>
+              </template>
+            </el-table-column>
+            <el-table-column label="修改生命状态">
+              <template slot-scope="scope">
+                <el-radio-group v-model="statusRevise_radios[scope.$index]">
+                  <el-radio :label="0">0：住院</el-radio>
+                  <el-radio :label="1">1：出院</el-radio>
+                  <el-radio :label="2">2：死亡</el-radio>
+                </el-radio-group>
+                <el-button @click="statusRevise(scope.row,scope.$index)" type="primary" size="small">修改</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -120,10 +102,13 @@
         })
           .then(resp => {
             if(resp.status === 200){
+              console.log(resp.data)
               this.area = resp.data.area;
               this.headNurse = resp.data.headNurse;
               this.wardNurse_tableData = resp.data.wardNurse_tableData;
               this.patient_tableData = resp.data.patient_tableData;
+              this.ratingRevise_radios = Array(this.patient_tableData.length).fill(-1);
+              this.statusRevise_radios = Array(this.patient_tableData.length).fill(-1);
             }
           })
           .catch(err => {
@@ -143,23 +128,33 @@
           headNurse:'张冬瓜',
           wardNurse_tableData:[{name:'111', patients:['aaa','bbb','ccc']},{name:'121', patients:['aaa','bbb','ccc']},{name:'131', patients:['aaa','bbb','ccc']}],
           patient_tableData: Array(20).fill(item),
-          ratingRevise_dialogVisible: false,
-          statusRevise_dialogVisible: false,
-          radio: 0,
           leave: 2,
           trans: 2,
-          status: 3
+          status: 3,
+          ratingRevise_radios: Array(20).fill(-1),
+          statusRevise_radios: Array(20).fill(-1)
         }
       },
       methods:{
         acid_test(row, index){
-          alert("nucleic_acid_test");
+          alert("nucleic_acid_test for "+row.username);
         },
         ratingRevise(row, index){
-          alert("Revise rating of patient "+row.username+" to "+this.radio);
+          // alert("Revise rating of patient "+row.username+" to "+this.ratingRevise_radios[index]);
+          if(this.ratingRevise_radios[index] === -1){
+            this.$message({
+              showClose: true,
+              message: '请先选择',
+              type: 'info'
+            });
+            return;
+          }
+          console.log(typeof row.patientID);
+          console.log(typeof this.ratingRevise_radios[index]);
+
           this.$axios.post('/ratingRevise',{
-            patiendID: row.patientID,
-            condition_rating: this.radio
+            patientID: row.patientID,
+            condition_rating: this.ratingRevise_radios[index]
           })
             .then(resp => {
               if (resp.status === 200 ){
@@ -168,7 +163,7 @@
                   message: '修改成功',
                   type: 'success'
                 });
-                row.condition_rating = this.radio;
+                row.condition_rating = this.ratingRevise_radios[index];
               }
               else {
                 console.log(err);
@@ -181,10 +176,18 @@
             })
         },
         statusRevise(row, index){
-          alert("Revise status of patient"+row.username);
+          // alert("Revise status of patient"+row.username);
+          if(this.statusRevise_radios[index] === -1){
+            this.$message({
+              showClose: true,
+              message: '请先选择',
+              type: 'info'
+            });
+            return;
+          }
           this.$axios.post('/statusRevise',{
-            patiendID: row.patientID,
-            living_status: this.radio
+            patientID: row.patientID,
+            living_status: this.statusRevise_radios[index]
           })
             .then(resp => {
               if (resp.status === 200 ){
@@ -193,7 +196,7 @@
                   message: '修改成功',
                   type: 'success'
                 });
-                row.living_status = this.radio;
+                row.living_status = this.statusRevise_radios[index];
               }
               else {
                 this.$message.error('修改失败')
