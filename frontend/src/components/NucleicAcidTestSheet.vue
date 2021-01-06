@@ -13,7 +13,7 @@
         </el-table-column>
         <el-table-column
           prop="result"
-          label="结果"
+          label="结果|0：阴性 1：阳性"
           width="180">
         </el-table-column>
         <el-table-column

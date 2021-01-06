@@ -79,7 +79,7 @@
                   </el-date-picker>
                 </el-form-item>
                 <el-form-item style="width: 100%">
-                  <el-button @click="daily_record(scope.row,scope.$index)" type="primary" size="small">提交检测单</el-button>
+                  <el-button @click="daily_record(scope.row,scope.$index)" type="primary" size="small">提交记录</el-button>
                 </el-form-item>
               </el-form>
             </template>

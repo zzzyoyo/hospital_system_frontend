@@ -24,8 +24,8 @@
           </el-form-item>
           <el-form-item prop="result" required>
             <el-select v-model="registerPatientForm.result" placeholder="核酸检测结果">
-              <el-option label="阴性" value="阴性"></el-option>
-              <el-option label="阳性" value="阳性"></el-option>
+              <el-option label="阴性" :value="0"></el-option>
+              <el-option label="阳性" :value="1"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item prop="date" required>
