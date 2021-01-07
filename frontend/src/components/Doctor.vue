@@ -17,6 +17,7 @@
           </el-card>
         </el-aside>
         <el-main>
+          <div v-if="anyCanLeave==1" style="text-align: left">有满足出院条件的病人，请筛选查看</div>
           <div style="text-align: right">
             是否满足出院条件：
             <el-radio-group v-model="leave">
@@ -64,7 +65,6 @@
             <el-table-column label="进行核酸检测">
               <template slot-scope="scope">
                 <el-form :model="testForm[scope.$index]"
-                         class="login_container"
                          label-position="left"
                          label-width="0px"
                          :ref="testForm[scope.$index]">
@@ -76,7 +76,7 @@
                     </el-select>
                   </el-form-item>
                   <el-form-item prop="result" required>
-                    <el-select v-model="testForm[scope.$index].result" placeholder="核酸检测结果">
+                    <el-select v-model="testForm[scope.$index].result" placeholder="检测结果">
                       <el-option label="阴性" :value="0"></el-option>
                       <el-option label="阳性" :value="1"></el-option>
                     </el-select>
@@ -85,7 +85,8 @@
                     <el-date-picker
                       v-model="testForm[scope.$index].date"
                       type="date"
-                      placeholder="选择日期">
+                      style="width: 100%"
+                      placeholder="日期">
                     </el-date-picker>
                   </el-form-item>
                   <el-form-item style="width: 100%">
@@ -135,6 +136,7 @@
               this.headNurse = resp.data.headNurse;
               this.wardNurse_tableData = resp.data.wardNurse_tableData;
               this.patient_tableData = resp.data.patient_tableData;
+              this.anyCanLeave = resp.data.anyCanLeave;
               this.ratingRevise_radios = Array(this.patient_tableData.length).fill(-1);
               this.statusRevise_radios = Array(this.patient_tableData.length).fill(-1);
               const atest = {
@@ -167,6 +169,7 @@
           headNurse:'张冬瓜',
           wardNurse_tableData:[{name:'111', patients:['aaa','bbb','ccc']},{name:'121', patients:['aaa','bbb','ccc']},{name:'131', patients:['aaa','bbb','ccc']}],
           patient_tableData: Array(20).fill(item),
+          anyCanLeave: 1,
           leave: 2,
           trans: 2,
           status: 3,

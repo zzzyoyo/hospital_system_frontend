@@ -26,7 +26,7 @@
         </el-table-column>
         <el-table-column
           prop="result"
-          label="核酸检测结果">
+          label="核酸检测结果|0：阴性 1：阳性">
         </el-table-column>
       </el-table>
     </el-main>
