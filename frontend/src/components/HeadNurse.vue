@@ -33,7 +33,11 @@
         <el-main>
           <el-container>
             <el-aside>
-              <el-card class="box-card" style="width: 100%;">
+              <div v-if="newPatients.length > 0" style="text-align: left;">
+                新转入的病人：<br>
+                <span v-for="new_patient in newPatients" :key="'new'+new_patient">{{new_patient+' '}}</span>
+              </div>
+              <el-card class="box-card" style="width: 100%;height: 380px">
                 <div slot="header" class="clearfix">
                   <span>病床信息</span>
                 </div>
@@ -53,6 +57,7 @@
               </el-card>
             </el-aside>
             <el-main>
+
               <div style="text-align: right">
                 是否满足出院条件：
                 <el-radio-group v-model="leave">
@@ -120,6 +125,7 @@
               this.bed_patient_tableData = resp.data.bed_patient_tableData;
               this.patient_tableData = resp.data.patient_tableData;
               this.nullWardNurse = resp.data.nullWardNurse;
+              this.newPatients = resp.data.newPatients;
             }
           })
           .catch(err => {
@@ -145,7 +151,8 @@
           leave: 2,
           trans: 2,
           status: 3,
-          nullWardNurse:['王五','karry','gamma','gtyry']
+          nullWardNurse:['王五','karry','gamma','gtyry'],
+          newPatients:['王五','karry','gamma','gtyry','王8五','7karry','0gamma','0gtyry']
         }
       },
       methods:{
