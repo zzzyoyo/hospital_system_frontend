@@ -71,6 +71,13 @@
                             auto-complete="off"
                             placeholder="症状"></el-input>
                 </el-form-item>
+                <el-form-item prop="status" required>
+                  <el-radio-group v-model="recordForm[scope.$index].status">
+                    <el-radio :label="0">住院</el-radio>
+                    <el-radio :label="1">出院</el-radio>
+                    <el-radio :label="2">死亡</el-radio>
+                  </el-radio-group>
+                </el-form-item>
                 <el-form-item prop="date" required>
                   <el-date-picker
                     v-model="recordForm[scope.$index].date"
@@ -127,6 +134,7 @@
         const arecord = {
           temperature: null,
           symptom: null,
+          status: null,
           date: null
         };
         return {
@@ -149,6 +157,7 @@
             patientName: row.username,
             temperature: parseFloat(this.recordForm[index].temperature),
             symptom: this.recordForm[index].symptom,
+            status: this.recordForm[index].status,
             date: this.recordForm[index].date
           })
             .then(resp => {
