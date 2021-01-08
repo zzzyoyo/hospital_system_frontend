@@ -195,6 +195,7 @@
                   message: '检测成功',
                   type: 'success'
                 });
+                location.reload();
               }
               else{
 
