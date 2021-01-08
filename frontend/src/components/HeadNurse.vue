@@ -151,8 +151,8 @@
           leave: 2,
           trans: 2,
           status: 3,
-          nullWardNurse:['王五','karry','gamma','gtyry'],
-          newPatients:['王五','karry','gamma','gtyry','王8五','7karry','0gamma','0gtyry']
+          nullWardNurse:[],
+          newPatients:[]
         }
       },
       methods:{
