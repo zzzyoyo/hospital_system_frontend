@@ -64,7 +64,7 @@
           </el-radio-group>
           <br>
           病情评级：
-          <el-radio-group v-model="status">
+          <el-radio-group v-model="rating">
             <el-radio :label="0">轻症</el-radio>
             <el-radio :label="1">重症</el-radio>
             <el-radio :label="2">危重症</el-radio>
