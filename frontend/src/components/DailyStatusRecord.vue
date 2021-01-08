@@ -43,6 +43,7 @@
           .then(resp => {
             if(resp.status === 200){
               this.recordTable = resp.data.recordTable;
+              console.log(this.recordTable);
             }
           })
           .catch(err => {

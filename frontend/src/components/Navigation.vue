@@ -30,7 +30,7 @@
               </ul>
             </li>
             <li><a href="">关于我们</a></li>
-            <li class="social-icons ml-lg-3"><router-link v-bind:to='path' @click.native='logout' v-if='out' >登出</router-link><router-link to='login' v-else>登录/注册</router-link></li>
+            <li class="social-icons ml-lg-3"><router-link v-bind:to='path' @click.native='logout' v-if='out' >登出</router-link><router-link to='login' v-else>登录</router-link></li>
             
 
           </ul>

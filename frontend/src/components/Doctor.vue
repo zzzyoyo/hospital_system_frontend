@@ -180,7 +180,7 @@
       },
       methods:{
         acid_test(row, index){
-          alert("nucleic_acid_test for "+row.username);
+          // alert("nucleic_acid_test for "+row.username);
           console.log(this.testForm[index]);
           this.$axios.post("/addAcidTest",{
             patientName: row.username,
@@ -225,15 +225,24 @@
           })
             .then(resp => {
               if (resp.status === 200 ){
-                this.$message({
-                  showClose: true,
-                  message: '修改成功',
-                  type: 'success'
-                });
+                if(resp.data.transSuccess === 0){
+                  this.$message({
+                    showClose: true,
+                    message: '修改成功，暂留在本病区',
+                    type: 'success'
+                  });
+                }
+                else{
+                  this.$message({
+                    showClose: true,
+                    message: '修改成功，已转移到对应病区',
+                    type: 'success'
+                  });
+                  location.reload();
+                }
                 row.condition_rating = this.ratingRevise_radios[index];
               }
               else {
-                console.log(err);
                 this.$message.error('修改失败')
               }
             })
@@ -263,7 +272,8 @@
                   message: '修改成功',
                   type: 'success'
                 });
-                row.living_status = this.statusRevise_radios[index];
+                // row.living_status = this.statusRevise_radios[index];
+                location.reload();
               }
               else {
                 this.$message.error('修改失败')

@@ -143,7 +143,7 @@
       },
       methods:{
         daily_record(row, index){
-          alert("daily_record for"+row.username);
+          // alert("daily_record for"+row.username);
           console.log(this.recordForm[index]);
           this.$axios.post("/addDailyRecord",{
             patientName: row.username,
